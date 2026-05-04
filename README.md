@@ -37,7 +37,8 @@ We provide an interactive online annotation tool:
 
 ### Example
 
-![SFL Demo](assets/sfl_demo.png)
+![SFL online](Example/SFL_onlie tool.png)
+![SFL online example](Example/SFL_onlie tool example.png)
 
 ### Alternative workflow
 Manual selection can be performed using tools such as LabelMe, followed by processing with our SFL pipeline (to be released).
@@ -48,7 +49,7 @@ Manual selection can be performed using tools such as LabelMe, followed by proce
 
 ### Example
 
-![SFD Demo](assets/sfd_demo.png)
+![SFD example](Example/SFD_overlay.png)
 
 ---
 
