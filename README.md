@@ -35,7 +35,9 @@ We provide an interactive online annotation tool:
 - Visualize overlay and refine if needed
 - Export mask and overlay
 
+
 ![SFL example](SFL_online.png)
+
 
 ### Alternative workflow
 Manual selection can be performed using tools such as LabelMe, followed by processing with our SFL pipeline (to be released).
