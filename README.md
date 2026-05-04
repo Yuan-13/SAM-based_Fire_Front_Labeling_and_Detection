@@ -70,7 +70,7 @@ We provide qualitative examples including:
 - SFD predictions
 - Overlay visualizations
 
-See: `examples/`
+See: `Example/`
 
 ---
 
