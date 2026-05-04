@@ -3,7 +3,7 @@
 This repository accompanies our paper:
 
 **"Revisiting Fire Front Localization: A Boundary-Oriented Framework for Labeling and Detection in Aerial Imagery"**  
-(under review at ISPRS Journal of Photogrammetry and Remote Sensing)
+(under review by ISPRS Journal of Photogrammetry and Remote Sensing)
 
 ---
 
@@ -26,6 +26,8 @@ This repository presents two complementary components:
 We provide an interactive online annotation tool:
 
 👉 https://huggingface.co/spaces/YF13/SFL
+
+![SFL tool](SFL_tool.png)
 
 ### Usage
 
