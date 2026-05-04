@@ -1,161 +1,111 @@
-# SAM-based Fire Front Labeling (SFL)
+# Boundary-Oriented Fire Front Localization (SFL & SFD)
 
-**SFL** (SAM-based Fire Front Labeling) is a semi-automatic fire front annotation framework designed to efficiently generate high-quality fire front labels from aerial images.\
-It leverages Meta's **Segment Anything Model (SAM)** and combines it with minimal manual labeling to produce accurate, consistent, reproducible and one-pixel-wide masks for fire modeling (e.g. rate of spread).
+This repository accompanies our paper:
 
-------------------------------------------------------------------------
+**"Revisiting Fire Front Localization: A Boundary-Oriented Framework for Labeling and Detection in Aerial Imagery"**  
+(under review at ISPRS Journal of Photogrammetry and Remote Sensing)
 
-## 🌎 Environment Setup
+---
 
-### Software Environment
+## 🔍 Overview
 
--   Ubuntu 20.04
--   Python 3.9.12
--   CUDA 11.4
+Accurate fire front localization in aerial wildfire imagery is challenging due to irregular, open, and partially observable fire structures. Instead of modeling fire regions, we reformulate the task as a **boundary-oriented problem**, explicitly targeting thin and open fire front boundaries.
 
-### Installation
+This repository presents two complementary components:
 
-``` bash
-# Create environment
-conda create -n sfl python=3.9.12 (or any other version)
-conda activate sfl
+- **SFL (SAM-based Fire Front Labeling)**  
+  A semi-automatic annotation framework for generating high-quality fire front boundaries from aerial imagery. It leverages Meta's **Segment Anything Model (SAM)** with minimal user interaction to produce accurate, consistent, and reproducible one-pixel-wide masks.
 
-# Install dependencies
-pip install -r requirements.txt
-```
+- **SFD (SAM-based Fire Front Detection)**  
+  A boundary-oriented detection framework for localizing fire front boundaries from aerial imagery. It leverages **Segment Anything Model (SAM)** to identify boundary subsets anchored on adjacent unburned regions, producing accurate, stable, and one-pixel-wide predictions with strong data efficiency.
 
-Typical dependencies (listed in `requirements.txt`):
+---
 
-    torch
-    torchvision
-    segment-anything
-    opencv-python
-    numpy
-    matplotlib
-    tqdm
+## 🧰 SFL: Annotation Tool
 
-You will also need to download the **SAM checkpoint** (pth file) from Google Drive:
-[SAM ViT-B Checkpoint](https://drive.google.com/file/d/1B3ROeN8_IpqSiSN32Jwv_bvbSIOxhpMe/view?usp=drive_link)
+We provide an interactive online annotation tool:
 
-After downloading, extract and place it under:
-``` bash
-checkpoints/sam_vit_b_01ec64.pth
-```
+👉 https://huggingface.co/spaces/YF13/SFL
 
-------------------------------------------------------------------------
+### Usage
 
-## 🧰 Tools
+- Upload image(s)
+- Select prompt points and fire front ranges
+- Generate **one-pixel-wide fire front mask**
+- Visualize overlay and refine if needed
+- Export mask and overlay
 
-### Labelme
+### Example
 
-Manual selection of **prompt points** and **range** are required with [Labelme](https://labelme.io/).
+![SFL Demo](assets/sfl_demo.png)
 
-Install Labelme:
+### Alternative workflow
+Manual selection can be performed using tools such as LabelMe, followed by processing with our SFL pipeline (to be released).
 
-``` bash
-pip install labelme
-```
+---
 
-To start labeling:
+## 🔥 SFD: Fire Front Detection
 
-``` bash
-labelme
-```
+### Example
 
-### Manual Selection Example
+![SFD Demo](assets/sfd_demo.png)
 
-Below shows example of manual selecting prompt points and range using **Labelme**:
+---
 
-![points example](examples/manual_selection_point)
+### ⭐ Key Characteristics
 
-------------------------------------------------------------------------
+- Boundary-oriented formulation
+- Data-efficient
+- Robust across modalities and datasets
+- Consistent performance under boundary-oriented evaluation metrics
 
-## ✍️ Manual Labeling Protocol
+---
 
-Manual labels are used **only for initialization or validation** of SAM
-predictions.
+## 🖼️ Examples
 
-**Guidelines:** 1. Draw **thin line segments** around clear fire front
-regions. 2. Save JSON files following the same name as the corresponding
-image:\
-- Example: `IMG_001.jpg → IMG_001.json` 3. Use the `fire_front` label
-class name for all annotations. 4. Avoid labeling smoke-only areas.
+We provide qualitative examples including:
 
-**Directory structure:**
+- Input aerial wildfire imagery
+- SFL-generated boundary labels
+- SFD predictions
+- Overlay visualizations
 
-    SFL/
-    │
-    ├── dataset/
-    │   ├── images/
-    │   │   ├── IMG_001.jpg
-    │   │   └── IMG_002.jpg
-    │   └── labels/
-    │       ├── IMG_001.json
-    │       └── IMG_002.json
+See: `examples/`
 
-------------------------------------------------------------------------
+---
 
-## 🔧 Creating New Labels with SAM
+## ⚙️ Environment
 
-Use the provided Python script `create_sfl_labels.py` to automatically
-generate fire front masks using SAM and the manual initialization lines.
+- Python 3.10+
+- PyTorch
+- Segment Anything Model (SAM)
 
-### Example Usage
+Detailed setup and dependencies will be provided upon release.
 
-``` bash
-python create_sfl_labels.py     --input_dir dataset/images     --label_dir dataset/labels     --output_dir dataset/sfl_masks     --sam_checkpoint path/to/sam_vit_h_4b8939.pth     --device cuda
-```
+---
 
-### Script Overview (`create_sfl_labels.py`)
+## 📦 Availability
 
-``` python
-import os
-import torch
-import cv2
-from segment_anything import sam_model_registry, SamPredictor
+- **Code**: Full implementation (training and evaluation) will be released upon acceptance of the paper.  
+- **Annotation Tool (SFL)**: Publicly available at the link above.
 
-def generate_sfl_masks(image_path, label_json, sam_checkpoint):
-    sam = sam_model_registry["vit_h"](checkpoint=sam_checkpoint)
-    predictor = SamPredictor(sam)
-    # Load image and manual hints (Labelme JSON)
-    # Predict masks using SAM and merge overlapping ones
-    # Save merged mask as .png
-```
-
-The script merges multiple overlapping masks into a **single clean mask
-per region**, ensuring: - Sharp and continuous fire front boundaries -
-Removal of redundant overlapping edges - Preservation of large, distinct
-regions
-
-------------------------------------------------------------------------
-
-## 📦 Output Example
-
-    dataset/
-    ├── sfl_masks/
-    │   ├── IMG_001_mask.png
-    │   ├── IMG_002_mask.png
-    │   └── ...
-
-------------------------------------------------------------------------
+---
 
 ## 📘 Citation
 
-If you use SFL in your work, please cite:
+If you find this work useful, please cite:
 
-    @misc{SFL2025,
-      title = {SAM-based Fire Front Labeling (SFL)},
-      author = {Yuan, F.},
-      year = {2025},
-      howpublished = {GitHub Repository},
-      note = {https://github.com/<your-repo>}
-    }
+```bibtex
+@article{***2026,
+title={Revisiting Fire Front Localization: A Boundary-Oriented Framework for Labeling and Detection in Aerial Imagery},
+author={Anonymous},
+journal={Under Review},
+year={2026}
+}
 
-------------------------------------------------------------------------
+---
 
-## 💬 Contact
+## 📄 License
 
-For questions or collaboration, please contact:\
-**Yuan F.**\
-📧 \[your.email@domain.edu\]\
-🌐 \[your website or lab link\]
+To be specified upon release.
+
