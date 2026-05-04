@@ -66,8 +66,8 @@ Manual selection can be performed using tools such as LabelMe, followed by proce
 We provide qualitative examples including:
 
 - Input aerial wildfire imagery
-- SFL-generated boundary labels
-- SFD predictions
+- SFL-generated boundary label
+- SFD prediction
 - Overlay visualizations
 
 See: `Example/`
