@@ -52,7 +52,7 @@ Manual selection can be performed using tools such as LabelMe, followed by proce
 
 ---
 
-### ⭐ Key Characteristics
+### Key Characteristics
 
 - Boundary-oriented formulation
 - Data-efficient
