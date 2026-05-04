@@ -50,8 +50,6 @@ Manual selection can be performed using tools such as LabelMe, followed by proce
 
 ![SFD example](Example/SFD_overlay.png)
 
----
-
 ### Key Characteristics
 
 - Boundary-oriented formulation
