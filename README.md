@@ -38,6 +38,7 @@ We provide an interactive online annotation tool:
 ### Example
 
 ![SFL online](Example/SFL_onlie tool.png)
+
 ![SFL online example](Example/SFL_onlie tool example.png)
 
 ### Alternative workflow
